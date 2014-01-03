@@ -1,4 +1,9 @@
 CahRails::Application.routes.draw do
+  
+  post "letter/send_letter"
+  get "letter/send_letter"
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
