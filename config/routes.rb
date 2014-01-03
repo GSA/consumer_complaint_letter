@@ -1,8 +1,11 @@
 CahRails::Application.routes.draw do
   
+  get "home/index"
+  
   post "letter/send_letter"
   get "letter/send_letter"
   
+  root :to => 'home#index'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
