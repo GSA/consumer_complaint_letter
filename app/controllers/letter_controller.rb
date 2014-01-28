@@ -5,7 +5,7 @@ class LetterController < ApplicationController
     todays_date = params[:todays_date].blank? ? "[TODAYS DATE]" : params[:todays_date]
     company_name = params[:company_name].blank? ? "[COMPANY NAME]" : params[:company_name]
     company_street_address = params[:company_street_address].blank? ? "[COMPANY STREET ADDRESS]" : params[:company_street_address]
-    company_city_state_zip = params[:company_city_state_zip].blank? ?  "[COMPANY CITY, STATE, AND ZIP Code]" : params[:company_city_state_zip]
+    company_city_state_zip = params[:company_city_state_zip].blank? ?  "[COMPANY CITY, STATE, AND ZIP CODE]" : params[:company_city_state_zip]
     transaction_date = params[:transaction_date].blank? ?  "[TRANSACTION DATE]" : params[:transaction_date]
     product_description = params[:product_description].blank? ?  "[PURCHASE INFO]" : params[:product_description]
     problem_description = params[:problem_description].blank? ?  "[COMPLAINT]" : params[:problem_description]
