@@ -1,7 +1,6 @@
 class LetterController < ApplicationController
  
   def send_letter
-    #letter = params[:letter].blank? ? "No letter text received" : params[:letter]
     todays_date = params[:todays_date].blank? ? "[TODAYS DATE]" : params[:todays_date]
     company_name = params[:company_name].blank? ? "[COMPANY NAME]" : params[:company_name]
     company_street_address = params[:company_street_address].blank? ? "[COMPANY STREET ADDRESS]" : params[:company_street_address]
@@ -13,7 +12,12 @@ class LetterController < ApplicationController
     records = params[:records].blank? ?  ""  : params[:records]
     resolution_date = params[:resolution_date].blank? ?  "[RESOLUTION DATE]" : params[:resolution_date]
     
-    letter = File.read("public/cah_template.rtf")
+    if params[:format] == "rtf"
+      letter = File.read("public/cah_template.rtf")
+    else 
+      letter = File.read("public/cah_template.txt")
+    end
+    
     letter = letter.gsub("TodaysDate", todays_date)
     letter = letter.gsub("CompanyName", company_name)
     letter = letter.gsub("CompanyStreetAddress", company_street_address)
@@ -25,7 +29,12 @@ class LetterController < ApplicationController
     letter = letter.gsub("RecordsText", records)
     letter = letter.gsub("ResolutionDate", resolution_date)
    
-    file_name = "complaint_letter#{DateTime.now.to_time.to_i}.rtf"
+    if params[:format] = "rtf"
+      file_name = "complaint_letter#{DateTime.now.to_time.to_i}.rtf"
+    else
+      file_name = "complaint_letter#{DateTime.now.to_time.to_i}.txt"
+    end
+    
     send_data letter, :type => 'text; charset=utf-8; header=present', :disposition => "attachment; filename=#{file_name}"
   end
 end

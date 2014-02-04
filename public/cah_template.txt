@@ -1,0 +1,34 @@
+[YOUR FIRST AND LAST NAME]
+[YOUR STREET ADDRESS]
+[YOUR CITY, STATE, AND ZIP CODE]
+
+TodaysDate
+
+CompanyName
+CompanyStreetAddress
+CompanyCityStateZip
+
+Dear Madam or Sir:
+
+Re: (Service/Purchase/Rental on TransactionDate)
+
+On TransactionDate, I purchased the following product or service:
+
+PurchaseInfo
+
+Unfortunately, I was dissatisfied for the following reason(s):
+
+ComplaintText
+
+To resolve the problem, I would like the following to take place:
+
+ResolutionText
+
+RecordsText
+
+I look forward to your reply and a resolution to my problem, and will wait until ResolutionDate before seeking help from a consumer protection agency or the Better Business Bureau. Please contact me at the above address or by phone at [YOUR PHONE NUMBER].
+
+Sincerely,
+
+
+[YOUR NAME]
