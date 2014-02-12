@@ -29,7 +29,7 @@ class LetterController < ApplicationController
     letter = letter.gsub("RecordsText", records)
     letter = letter.gsub("ResolutionDate", resolution_date)
    
-    if params[:format] = "rtf"
+    if params[:format] == "rtf"
       file_name = "complaint_letter#{DateTime.now.to_time.to_i}.rtf"
     else
       file_name = "complaint_letter#{DateTime.now.to_time.to_i}.txt"
