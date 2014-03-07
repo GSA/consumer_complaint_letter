@@ -11,6 +11,7 @@ class LetterController < ApplicationController
     resolution_text = params[:resolution_text].blank? ?  "[RESOLUTION]" : params[:resolution_text]
     records = params[:records].blank? ?  ""  : params[:records]
     resolution_date = params[:resolution_date].blank? ?  "[RESOLUTION DATE]" : params[:resolution_date]
+    enclosure = params[:records].blank? ?  ""  : "Enclosure"
     
     if params[:format] == "rtf"
       letter = File.read("public/cah_template.rtf")
@@ -28,6 +29,7 @@ class LetterController < ApplicationController
     letter = letter.gsub("ResolutionText", resolution_text)
     letter = letter.gsub("RecordsText", records)
     letter = letter.gsub("ResolutionDate", resolution_date)
+    letter = letter.gsub("EnclosureText", enclosure)
    
     if params[:format] == "rtf"
       file_name = "complaint_letter#{DateTime.now.to_time.to_i}.rtf"
