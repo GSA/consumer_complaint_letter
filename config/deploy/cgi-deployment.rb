@@ -14,7 +14,7 @@ set :user, ENV['USER'] || 'apache'
 set :web_user, "cah_user"
 set :web_group, "apache"
 set :deploy_to, "/var/www/#{application}"
-set :domain, "" # TBD
+set :domain, "172.22.79.89"
 set :rails_env, :staging
 
 role :web, "#{domain}"                          # Your HTTP server, Apache/etc

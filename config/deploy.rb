@@ -1,17 +1,8 @@
-set :bundle_cmd, "/home/cah/.rvm/gems/ruby-2.0.0-p353@global/bin/bundle"
-set :bundle_dir, "/home/cah/.rvm/gems/ruby-2.0.0-p353"
 require 'bundler/capistrano'
-require "rvm/capistrano"
-require "rvm/capistrano/alias_and_wrapp"
 require 'capistrano/ext/multistage'
 require './config/boot'
-set :stages, %w(development staging production)
+set :stages, %w(development cgi-deployment staging production)
 set :default_stage, "development"
-
-#set :bundle_dir, ''
-#set :bundle_flags, '--system --quiet'
-set :rvm_type, :user                     # Defaults to: :auto
-set :rvm_ruby_version, '2.0.0-p353'      # Defaults to: 'default'
 
 set :web_user, nil
 set :application, "cah_rails"
@@ -21,7 +12,7 @@ set :repository, "git@github.com:mobomo/cah_rails.git"
 set :use_sudo, false
 set :deploy_via, :remote_cache
 
-before 'deploy:assets:update_asset_mtimes', 'deploy:symlink_files'
+before 'deploy:assets:precompile', 'deploy:symlink_files'
 after "deploy:restart", "deploy:cleanup"
 
 
@@ -59,5 +50,9 @@ namespace :deploy do
     run "echo \"PATH $PATH\""
     run "rm #{release_path}/config/database.yml"
     run "ln -nfs #{deploy_to}/shared/config/*.yml #{release_path}/config/"
+  end
+
+  task :update_git_repo_location do
+    run "if [ -d #{shared_path}/cached-copy ]; then cd #{shared_path}/cached-copy && git remote set-url origin #{repository}; else true; fi"
   end
 end
