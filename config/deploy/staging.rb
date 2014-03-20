@@ -1,11 +1,10 @@
 require "rvm/capistrano"
+default_run_options[:pty] = true
 set :rvm_ruby_string, 'ruby-1.9.3-p484@cah'
 set :rvm_type, :system                   # Defaults to: :auto
 set :bundle_cmd, "/usr/local/rvm/gems/ruby-1.9.3-p484@global/bin/bundle"
 set :bundle_dir, ''
 set :bundle_flags, '--system --quiet'
-#set :bundle_dir, "/usr/local/rvm/gems/ruby-1.9.3-p484"
-#set :rvm_ruby_version, '1.9.3-p484'      # Defaults to: 'default'
 
 # Use this if you're stuck behind a draconian VPN
 set :use_sudo, true
@@ -14,7 +13,7 @@ set :user, ENV['USER'] || 'apache'
 set :web_user, "cah_user"
 set :web_group, "apache"
 set :deploy_to, "/var/www/#{application}"
-set :domain, "" # TBD
+set :domain, "172.22.76.89"
 set :rails_env, :staging
 
 role :web, "#{domain}"                          # Your HTTP server, Apache/etc
@@ -25,18 +24,17 @@ set :branch, ENV['BRANCH'] || 'master'
 
 
 before 'deploy', 'deploy:take_control'
-#before 'deploy:symlink_db', 'deploy:delete_rvmrc'
-#before 'deploy:assets:precompile', 'deploy:symlink_config_for_staging'
-#before 'deploy', 'deploy:set_up_rvm'
 after 'deploy', 'deploy:relinquish_control'
 # before "deploy:update_code", "deploy:web:disable"
 # after "deploy", "deploy:web:enable"
 before "deploy:update_git_repo_location", "deploy:take_control"
 after "deploy:update_git_repo_location", "deploy:relinquish_control"
+before "deploy:setup", "rvm:create_gemset"
+after "deploy:setup", "deploy:set_up_rvm"
 
 namespace :deploy do
   task :take_control do
-    sudo "chown -R #{user} #{deploy_to}/", :pty => true
+    sudo "chown -R #{user} #{deploy_to}/", :shell => 'bash', :pty => true
   end
 
   task :delete_rvmrc, :roles => :app do
@@ -49,12 +47,11 @@ namespace :deploy do
   end
 
   task :relinquish_control do
-    sudo "chown -R #{web_user}:#{web_group} #{deploy_to}/", :pty => true
-    sudo "chmod -R g+rx #{deploy_to}/", :pty => true
+    sudo "chown -R #{web_user}:#{web_group} #{deploy_to}/", :shell => 'bash', :pty => true
+    sudo "chmod -R g+rx #{deploy_to}/", :shell => 'bash', :pty => true
   end
 
   task :set_up_rvm, :roles => :app do
-    run "cd #{release_path}; #{sudo} rvm use #{rvm_ruby_string} --create --rvmrc", :pty => true
     sudo "chown -R #{web_user} /usr/local/rvm/gems/#{rvm_ruby_string}", :pty => true
   end
 end

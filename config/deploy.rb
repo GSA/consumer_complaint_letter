@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 require './config/boot'
-set :stages, %w(development cgi-deployment staging production)
+set :stages, %w(development cgi-deployment staging production production-backup)
 set :default_stage, "development"
 
 set :web_user, nil
@@ -14,6 +14,7 @@ set :deploy_via, :remote_cache
 
 before 'deploy:assets:precompile', 'deploy:symlink_files'
 after "deploy:restart", "deploy:cleanup"
+after "deploy:setup", "deploy:add_shared_config"
 
 
 desc "Shows the date/time and commit revision of when the code was most recently deployed for a server"
@@ -39,7 +40,8 @@ namespace :deploy do
 
   desc "Add config dir to shared folder"
   task :add_shared_config do
-    run "mkdir -p #{deploy_to}/shared/config"
+    sudo "mkdir -p #{deploy_to}/shared/config"
+    sudo "touch #{deploy_to}/shared/log/.gitkeep"
   end
 
   desc "Symlink files"
