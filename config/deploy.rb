@@ -12,7 +12,7 @@ set :repository, "git@github.com:mobomo/cah_rails.git"
 set :use_sudo, false
 set :deploy_via, :remote_cache
 
-before 'deploy:assets:precompile', 'deploy:symlink_files'
+#before 'deploy:assets:precompile', 'deploy:symlink_files'
 after "deploy:restart", "deploy:cleanup"
 after "deploy:setup", "deploy:add_shared_config"
 
@@ -50,7 +50,7 @@ namespace :deploy do
     run "echo \"GEM_HOME: $GEM_HOME\""
     run "echo \"BUNDLE_PATH $BUNDLE_PATH\""
     run "echo \"PATH $PATH\""
-    run "rm #{release_path}/config/database.yml"
+#    run "rm #{release_path}/config/database.yml"
     run "ln -nfs #{deploy_to}/shared/config/*.yml #{release_path}/config/"
   end
 
