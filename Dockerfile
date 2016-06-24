@@ -19,7 +19,6 @@ ADD . $APP_HOME
 
 RUN rm -f tmp/pids/server.pid
 
-
 EXPOSE 80
 ENTRYPOINT [ "bundle", "exec", "rails", "s" ]
 CMD [ "-p", "80", "-b", "0.0.0.0" ]
