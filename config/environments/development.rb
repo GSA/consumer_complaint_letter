@@ -35,3 +35,5 @@ CahRails::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 end
+
+Rails.application.routes.default_url_options[:protocol] = 'https'
